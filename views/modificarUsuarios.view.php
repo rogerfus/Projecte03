@@ -31,7 +31,6 @@
 
 	</head>
 	<body>
-	<form name="f1" action="realizar_reserva_update.php" method="GET">
 	
 	<div id="fh5co-page">
 	<header id="fh5co-header" role="banner">
@@ -69,11 +68,13 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
-					<h2>Administración de usuarios</h2>
-					
+					<h2>Administración de usuarios</h2> 
+					<!--<p><span>Created with <i class="sl-icon-heart"></i> by the fine folks at <a href="http://freehtml5.co">FreeHTML5.co</a></span></p>-->
 				</div>
 			</div>
-			<table><tr><td>
+
+			<div class="row" >
+
 					
 <?php
 	$conexion = mysqli_connect('localhost', 'root', '', 'bd_cromo');
@@ -88,7 +89,7 @@
 		//llamamos a la función extract para extraer los datos del array $_REQUEST y lo meta todo en las variables del mismo nombre del html
 		extract($_REQUEST);
 
-		$sql = "SELECT * FROM tbl_usuarios";
+		$sql = "SELECT * FROM tbl_usuarios WHERE habilitado = '1'";
 		
 
 		//echo $sql;
@@ -96,14 +97,57 @@
 		$usuarios = mysqli_query($conexion, $sql);
 		
 		if(mysqli_num_rows($usuarios)!=0){
-			echo "<h3> Número de recursos: " . mysqli_num_rows($usuarios) . "</h3></td></tr><tr><td>";
+			echo "<h3> Número de usuarios: " . mysqli_num_rows($usuarios) . "</h3>";?><h3><a href="afegirUsuari.php">Añadir un usuario</a></h3>
+			<h4 style="color:red"><?php if (isset($_SESSION['errores'])) {echo $_SESSION['errores'];} ?></h4>
+			<?php
 			while($usu = mysqli_fetch_array($usuarios)){
-			$usu_name = $usu['usu_name'];$usu_pass=$usu['usu_pass'];
-			echo $usu_name."</td><td>".$usu_pass."</td><td>";
-			echo "<input type='submit' name='enviar'";
-			echo '</form></td></tr><tr>';
-			echo "<br/><br/><br/><br/><br/><br/><br/>";
-			}
+			$usu_name = $usu['usu_name'];$usu_pass=$usu['usu_pass']; $usu_id=$usu['usu_id']?> 
+				<form method="post" name="Form" id="Form" action="modificacionUsuarios.php">
+		
+			
+			<input type="text" name="usu_name" value="<?php echo $usu_name;?>" />
+			<input type="password" id="pass" name="usu_pass" value="<?php echo $usu_pass;?>" />
+			<input type="hidden" name="usu_id" value="<?php echo $usu_id;?>" />
+			<input type="hidden" name="contra_antigua" value="<?php echo $usu_pass;?>" />
+			<input type="hidden" name="nombre_antiguo" value="<?php echo $usu_name;?>" />
+			<button type="reset">Reset</button>
+			<button type="submit">Submit</button>
+		
+		
+		</form>
+		<form method="post" name="Form" id="Form" action="deshabilitar.php">
+			<button type="submit" style="color:red">deshabilitar</button>
+		</form>
+		<br/>
+			<?php }} ?>
+
+			<?php  
+			
+		
+		$sql = "SELECT * FROM tbl_usuarios WHERE habilitado = '0'";
+		
+
+		//echo $sql;
+	
+		$usuarios = mysqli_query($conexion, $sql);
+		if(mysqli_num_rows($usuarios)!=0){
+			echo "<h3> Número de usuarios deshabilitados: " . mysqli_num_rows($usuarios) . "</h3>";?>
+			<h4 style="color:red"><?php if (isset($_SESSION['errores'])) {echo $_SESSION['errores'];} ?></h4>
+			<?php
+			while($usu = mysqli_fetch_array($usuarios)){
+			$usu_name = $usu['usu_name'];$usu_pass=$usu['usu_pass']; $usu_id=$usu['usu_id']?> 
+			<form method="post" name="Form" id="Form" action="habilitar.php">
+		
+			
+			<input type="text" name="usu_name" value="<?php echo $usu_name;?>" disabled />
+			<input type="password" id="pass" name="usu_pass" value="<?php echo $usu_pass;?>" disabled/>
+			<input type="hidden" name="usu_id" value="<?php echo $usu_id;?>" disabled/>
+			<button type="submit" style="color:green">habilitar</button>
+			
+		</form>
+		
+		<?php
+		}
 		} else {
 			echo " <br/> <br/> No hay usuarios!";
 		}
@@ -114,8 +158,6 @@
 					
 			</div>
 		</div>
-	</div>
-	<br/><br/><br/><br/><br/><br/>
 	</div>
 	<footer id="fh5co-footer" role="contentinfo">
 	
@@ -131,6 +173,7 @@
 			
 		</div>
 	</footer>
+	</div>
 	
 	
 	<!-- jQuery -->
