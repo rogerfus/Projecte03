@@ -37,20 +37,25 @@
 			$sql .= "`usu_name` = '$usu_name'";
 			if (isset($usu_pass)) {
 				if ($contra_antigua == $usu_pass) {
-					
+					$completar = true;
 				} else {
 					$usu_pass = hash('sha512', $usu_pass);
 					$sql .= ", `usu_pass` = '$usu_pass' WHERE `tbl_usuarios`.`usu_id` = $usu_id;";
+					$completar = false;
 				}
 			}
 		}else{$usu_name=$nombre_antiguo;
 			if (isset($usu_pass)) {
 				if ($contra_antigua == $usu_pass) {
 					$sql .= "`usu_pass` = '$usu_pass' WHERE `tbl_usuarios`.`usu_id` = $usu_id;";
+					$completar = false;
 				} else {
 					$usu_pass = hash('sha512', $usu_pass);
 				}
 			}
+		}
+		if ($completar == true) {
+			$sql .= " WHERE `tbl_usuarios`.`usu_id` = $usu_id;";
 		}
 
 
