@@ -116,6 +116,7 @@
 		
 		</form>
 		<form method="post" name="Form" id="Form" action="deshabilitar.php">
+		<input type="hidden" name="usu_id" value="<?php echo $usu_id;?>" />
 			<button type="submit" style="color:red">deshabilitar</button>
 		</form>
 		<br/>
@@ -141,7 +142,7 @@
 			
 			<input type="text" name="usu_name" value="<?php echo $usu_name;?>" disabled />
 			<input type="password" id="pass" name="usu_pass" value="<?php echo $usu_pass;?>" disabled/>
-			<input type="hidden" name="usu_id" value="<?php echo $usu_id;?>" disabled/>
+			<input type="hidden" name="usu_id" value="<?php echo $usu_id;?>"/>
 			<button type="submit" style="color:green">habilitar</button>
 			
 		</form>
