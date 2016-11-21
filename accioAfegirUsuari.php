@@ -20,7 +20,7 @@
 
 		$algunUsu = mysqli_query($conexion, $sql1);
 		
-		if (mysqli_num_rows($algunUsu)==0) {
+		if (mysqli_num_rows($algunUsu)===0) {
 			$errores = '<li>El nombre de usuario ya existe</li><br>';
 			$_SESSION['errores'] = $errores;
 			header('Location:afegirUsuari.php');
@@ -30,11 +30,12 @@
 			$_SESSION['errorPass'] = $errorPass;
 			header('Location:afegirUsuari.php');
 		}
-		$sql = "INSERT INTO `tbl_usuarios` (`usu_id`, `usu_name`, `usu_pass`, `habilitado`) VALUES (NULL, '$usu_name', 'usu_pass', '1');";
+		$usu_pass = hash('sha512', $usu_pass);
+		$sql = "INSERT INTO `tbl_usuarios` (`usu_id`, `usu_name`, `usu_pass`, `habilitado`) VALUES (NULL, '$usu_name', '$usu_pass', '1');";
+		$_SESSION['goodNews'] = "S'ha afegit un usuari correctament.";
 
-
-		//$actualizar_recurso = mysqli_query($conexion, $sql);
-		//header('Location:afegirUsuari.php');
+		$actualizar_recurso = mysqli_query($conexion, $sql);
+		header('Location:afegirUsuari.php');
 	
 
 		

@@ -75,7 +75,7 @@
 
 			<div class="row" >
 
-					
+			<?php if (isset($_SESSION['goodNews'])) {echo "<h4 style='color:green'>". $_SESSION['goodNews']."</h4>"; $_SESSION['goodNews']="";}?>
 			<form method="post" name="afegirUsuari" id="afegirUsuari" action="accioAfegirUsuari.php">
 				<dl>
 					<dt>
