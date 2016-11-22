@@ -27,7 +27,7 @@
 				<i class="icono izquierda fa fa-lock"></i><input type="password" name="usu_pass" class="password_btn" placeholder="Contraseña">
 				<i class="submit-btn fa fa-arrow-right" onclick="login.submit()"></i>
 			</div>
-
+			
 			<?php if(!empty($errores)): ?>
 				<div class="error">
 					<ul>
