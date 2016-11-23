@@ -78,59 +78,26 @@
 			<div class="row">
 					
 <?php
+	echo "El id del recurso es: $idRecurso </br>";
+	$fecha = date("Y-m-d", strtotime($dia));
+	echo "La fecha es: $fecha<br/>";	
 	$conexion = mysqli_connect('localhost', 'root', '', 'bd_cromo');
-		//le decimos a la conexión que los datos los devuelva diréctamente en utf8, así no hay que usar htmlentities
-		$acentos = mysqli_query($conexion, "SET NAMES 'utf8'");
-		if (!$conexion) {
-		    echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
-		    echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
-		    echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
-		    exit;
+	$sql = "SELECT *, DATE_FORMAT(res_fechaini,'%H') AS res_fechaini FROM `tbl_reservas` WHERE `dia` = '$fecha' ";
+	$reservas = mysqli_query($conexion, $sql);
+	$done = 7;
+	if(mysqli_num_rows($reservas)!=0){
+	while($recurso = mysqli_fetch_array($reservas)){
+		$fecha = $recurso['res_fechaini'];
+		echo "$fecha";
+		echo "<form name='hora'>";
+		for ($hora=8; $hora<$fecha ; $hora++) { 
+				echo "$hora<input type='checkbox' name='horas' value'$hora'>";
 		}
-		//llamamos a la función extract para extraer los datos del array $_REQUEST y lo meta todo en las variables del mismo nombre del html
-		extract($_REQUEST);
-
-		$sql = "SELECT * FROM tbl_recursos";
 		
-
-		//echo $sql;
-	
-		$reservas = mysqli_query($conexion, $sql);
-		
-		if(mysqli_num_rows($reservas)!=0){
-			echo "<h3> Número de recursos: " . mysqli_num_rows($reservas) . "</h3><br/>";
-			while($recurso = mysqli_fetch_array($reservas)){
-			$foto='img/'.$recurso['rec_foto'];
-
-			echo '<div class="col-md-3 text-center">'; 
-			echo '<div class="work-inner">';
-			if (file_exists($foto)) {
-				$foto = $foto;
-			}else{$foto = 'img/0.jpg';}
-			?>
-			<a href="#" class="work-grid" style="background-image: url(<?php echo $foto; ?>);"></a>
-		
-		<?php
-		$dataHoy = date("Y") ."-". date("m") ."-". date("d");
-			echo "<form action='tramitarReserva.php' method='POST'>";
-			echo '<h4><a href="#"> '.$recurso['rec_name'].'</a></h4>';
-			echo '<span> '.$recurso['rec_tipo'].'</span><br/>';
-			$id = $recurso['rec_id'];
-			echo '<input type="hidden" name="idRecurso" value="'.$id.'"/>';
-			echo "<input type='date' name='dia' value='$dataHoy'/>";
-			echo '<input type="submit" value="Tramitar"/><br/><br/>';
-			echo '</div>';
-			echo '</div>';
-			echo '</form>';
-		
-			}
-		} else {
-			echo " <br/> <br/> No hay datos que mostrar!";
-		}
-			//$_SESSION['usu_id'] = $usu_id;
-		//echo $usu_id;
-		mysqli_close($conexion);
-	?>		
+		echo "<input type='submit' value='reservar'>";
+		echo "</form></br>";
+	}}else{echo "no hay datos";}
+?>		
 					
 			</div>
 		</div>
