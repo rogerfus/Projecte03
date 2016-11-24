@@ -25,6 +25,26 @@
 		$res_fechaini = "'".$dia." ".$horaIni.":00:00'";
 		$res_fechafin = "'".$dia." ".$horaFin.":00:00'";
 
+		$sql2 = "SELECT * FROM `tbl_reservas` WHERE ";
+		$primera=1;
+		for ($i=$horaIni; $i <$horaFin ; $i++) { 
+			$horaUltima = ($horaFin-1);
+			$res_fechaini = "'".$dia." ".$horaIni.":00:00'";
+			$res_fechafin = "'".$dia." ".$horaFin.":00:00'";
+			if ($primera==1) {
+				$sql2 .= " res_fechaini = $res_fechaini OR res_fechafin = $res_fechafin ";
+				$primera = 0;
+			}else{
+			$sql2 .= " res_fechaini = $res_fechaini OR res_fechafin = $res_fechafin ";
+			}
+		}
+		$proteccion = mysqli_query($conexion, $sql2);
+		if (mysqli_num_rows($proteccion)!=0) {
+			$_SESSION['mensaje']="Alguien ha reservado alguna de las horas que querias mientras te decidias!";
+			$_SESSION['idRecurso']= $idRecurso;
+			$_SESSION['dia']=$dia;
+			header('Location:tramitarReserva.php');
+		}else{
 
 		$sql1 = "INSERT INTO `tbl_reservas` (`res_id`, `rec_id`, `usu_id`, `res_fechaini`, `res_fechafin`, `dia`) VALUES (NULL, '4', '1', $res_fechaini, $res_fechafin, '$dia');";
 		//echo "$sql1";

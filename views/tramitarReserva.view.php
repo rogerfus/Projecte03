@@ -83,7 +83,11 @@
 						$idRecurso = $_SESSION['idRecurso'];}  
 						if (isset($_SESSION['dia'])) {
 						$dia = $_SESSION['dia'];
-					}
+						}
+						if (isset($_SESSION['mensaje'])) {
+						$mensaje = $_SESSION['mensaje'];
+						echo "<br>$mensaje";
+						}
 						?>
 <?php
 	$fecha = date("Y-m-d", strtotime($dia));
@@ -142,6 +146,7 @@
 unset($_SESSION['reserva']);
 unset($_SESSION['idRecurso']);
 unset($_SESSION['dia']);
+unset($_SESSION['mensaje']);
 ?>		
 					
 			</div>
