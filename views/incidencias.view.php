@@ -31,6 +31,7 @@
 
 	</head>
 	<body>
+		<form action="reserva_devolver.php" method="GET">
 	<div id="fh5co-page">
 	<header id="fh5co-header" role="banner">
 		<div class="container">
@@ -83,7 +84,6 @@
 		$statement->execute();
 		$resultados = $statement->fetchAll();
 		?>
-		<form action="reserva_devolver.php" method="GET">
 		
 		<?php
 		foreach ($resultados as $recursos) {

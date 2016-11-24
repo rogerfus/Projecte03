@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 	<head>
 	<meta charset="utf-8">
@@ -28,6 +29,8 @@
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
+	
+	
 
 	</head>
 	<body>
@@ -47,7 +50,7 @@
 					<ul>
 						
 
-						<li><a class="active" href="">Recursos</a></li>
+						<li><a class="active" href="portfolio.php">Recursos</a></li>
 						<li><a href="devolucion.php">Devoluciones</a></li>
 						<li><a href="incidencias.php">Incidencias</a></li>
 						<?php 
@@ -76,27 +79,69 @@
 				</div>
 			</div>
 			<div class="row">
-					
+					<?php if (isset($_SESSION['reserva'])) {echo "<h4 style='color:red'>". $_SESSION['reserva']."</h4>"; $_SESSION['reserva']="";}else{?><h4 style='color:green'>Por favor, seleccione solo la hora de inicio y fin.</h4><?php } if (isset($_SESSION['idRecurso'])) {
+						$idRecurso = $_SESSION['idRecurso'];}  
+						if (isset($_SESSION['dia'])) {
+						$dia = $_SESSION['dia'];
+					}
+						?>
 <?php
-	echo "El id del recurso es: $idRecurso </br>";
 	$fecha = date("Y-m-d", strtotime($dia));
-	echo "La fecha es: $fecha<br/>";	
 	$conexion = mysqli_connect('localhost', 'root', '', 'bd_cromo');
-	$sql = "SELECT *, DATE_FORMAT(res_fechaini,'%H') AS res_fechaini FROM `tbl_reservas` WHERE `dia` = '$fecha' ";
+	$sql = "SELECT *, DATE_FORMAT(res_fechaini,'%H') AS res_fechaini , DATE_FORMAT(res_fechafin,'%H') AS res_fechafin FROM `tbl_reservas` WHERE `dia` = '$fecha' ORDER BY res_fechaini";
 	$reservas = mysqli_query($conexion, $sql);
 	$done = 7;
 	if(mysqli_num_rows($reservas)!=0){
-	while($recurso = mysqli_fetch_array($reservas)){
-		$fecha = $recurso['res_fechaini'];
-		echo "$fecha";
-		echo "<form name='hora'>";
-		for ($hora=8; $hora<$fecha ; $hora++) { 
-				echo "$hora<input type='checkbox' name='horas' value'$hora'>";
+		$hora = 8;
+		while($recurso = mysqli_fetch_array($reservas)){
+			$fecha = $recurso['res_fechaini'];
+			$fechafin = $recurso['res_fechafin'];
+			$fechaSimple = $recurso['dia'];
+			if ($fecha>8) {
+			echo "<form name='hora' action='reservapr3.php'>";
+			echo "<input type='hidden' name='fechaSimple' value='$fechaSimple'>";
+			echo "<input type='hidden' name='idRecurso' value='$idRecurso'>";
+			echo "<input type='hidden' name='dia' value='$dia'>";
+			for ($hora=$hora; $hora<$fecha ; $hora++) { 
+					echo "$hora<input type='checkbox' name='horas[]' value='$hora' >";
+			}
+			echo "<input type='submit' value='reservar'>";
+			echo "</form>";
+			}
+			$hora = $fechafin;
+			echo "Alguien tiene desde las $fecha hasta las $fechafin </br>";
 		}
-		
-		echo "<input type='submit' value='reservar'>";
-		echo "</form></br>";
-	}}else{echo "no hay datos";}
+		if ($fechafin<21) {
+			echo "<form name='hora' action='reservapr3.php'>";
+			echo "<input type='hidden' name='fechaSimple' value='$fechaSimple'>";
+			echo "<input type='hidden' name='idRecurso' value='$idRecurso'>";
+			echo "<input type='hidden' name='dia' value='$dia'>";
+			for ($hora=$hora; $hora<21 ; $hora++) { 
+					echo "$hora<input type='checkbox' name='horas[]' value='$hora' >";
+			}
+			echo "<input type='submit' value='reservar'>";
+			echo "</form>";
+	}
+}else{
+	$fechaSimple = $fecha;
+	echo "<form name='hora' action='reservapr3.php'>";
+			echo "<input type='hidden' name='fechaSimple' value='$fechaSimple'>";
+			echo "<input type='hidden' name='idRecurso' value='$idRecurso'>";
+			echo "<input type='hidden' name='dia' value='$dia'>";
+			for ($hora=8; $hora<21 ; $hora++) { 
+					echo "$hora<input type='checkbox' name='horas[]' value='$hora' >";
+			}
+			echo "<input type='submit' value='reservar'>";
+			echo "</form>";
+}
+
+
+
+
+
+unset($_SESSION['reserva']);
+unset($_SESSION['idRecurso']);
+unset($_SESSION['dia']);
 ?>		
 					
 			</div>
@@ -133,3 +178,6 @@
 	</body>
 </html>
 
+<?php 
+//INSERT INTO `tbl_reservas` (`res_id`, `rec_id`, `usu_id`, `res_fechaini`, `res_fechafin`, `dia`) VALUES (NULL, '4', '4', '2016-11-24 18:00:00', '2016-11-24 19:00:00', '2016-11-24');
+?>
