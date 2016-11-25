@@ -47,11 +47,16 @@
 						<li><a href="devolucion.php">Devoluciones</a></li>
 						<li><a href="incidencias.php">Incidencias</a></li>
 						<?php 
-						if ($_SESSION['usu_name'] == 'admin') {
-							echo "<li style='color: #2EFE64;''><a class='active' href='estadisticas.php'>Estadisticas</a></li><br/><br/>";
-							echo "<ul ><li style='float:right;' style='color: #2EFE64;''><a href='disponibilidad.php'>Disponibilidad</a></li></ul> ";
+						if ($_SESSION['usu_name'] == 'admin') {?>
+							<li><a href="modificarUsuarios.php">Modificar Usuarios</a></li>	
+
+							<?php
+							echo "<li style='color: #2EFE64;''><a class='active' href='estadisticas.php'>Estadisticas</a></li>";
 						}
+						
 						?>
+						
+						
 					</ul>
 				</nav>
 			</div>

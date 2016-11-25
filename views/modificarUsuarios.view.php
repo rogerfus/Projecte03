@@ -51,10 +51,12 @@
 						if ($_SESSION['usu_name'] == 'admin') {
 							echo "<li style='color: #2EFE64;''>";
 							?>
-							<a href="estadisticas.php">Estadisticas</a></li>	<?php
+							<li><a class="active" href="#">Modificar Usuarios</a></li>
+								<?php
 							echo "<li style='color: #2EFE64;''>";
 							?>
-							<a class="active" href="#">Modificar Usuarios</a></li>	<?php
+							<a href="estadisticas.php">Estadisticas</a></li>
+								<?php
 						}
 						
 						?>

@@ -10,7 +10,7 @@ if (isset($_SESSION['usu_name']) && $_SESSION['usu_name']=='admin') {
 			$next = $elSiguiente['elSiguiente'];
 		}
 	}
-	$next=($next-3).".jpg";
+	$next=($next).".jpg";
 	// echo "Nombre: " . $_FILES['archivo']['name'] . "<br>";
  //    echo "Tipo: " . $_FILES['archivo']['type'] . "<br>";
  //    echo "Tamaño: " . ($_FILES["archivo"]["size"] / 1024) . " kB<br>";
@@ -19,7 +19,7 @@ if (isset($_SESSION['usu_name']) && $_SESSION['usu_name']=='admin') {
 		$rec_tipo = "Sala Reuniones";
 	}
 	$nombre_archivo = $_FILES['archivo']['name'];
-	$nombre_archivo=$next.".jpg";
+	$nombre_archivo=$next;
 	move_uploaded_file($_FILES['archivo']['tmp_name'], "img/$nombre_archivo");
 	$sql1="INSERT INTO `tbl_recursos` (`rec_id`, `rec_name`, `rec_tipo`, `rec_disp`, `rec_foto`, `rec_estado`) VALUES (NULL, '$rec_name', '$rec_tipo', b'1', '$next', '$rec_estado');";
 	$agregarRecurso = mysqli_query($conexion, $sql1);

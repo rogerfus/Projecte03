@@ -49,7 +49,9 @@
 						if ($_SESSION['usu_name'] == 'admin') {
 							echo "<li style='color: #2EFE64;''>";
 							?>
-							<a href="estadisticas.php">Estadisticas</a></li>	<?php
+							<a href="modificarUsuarios.php">Modificar Usuarios</a></li>
+							<a href="estadisticas.php">Estadisticas</a></li>
+								<?php
 						}
 						?>
 					</ul>
@@ -61,7 +63,7 @@
 		<div class="container">
 			<div class="row" id="row0">
 				<div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
-					<h2>Disponibilidad de recursos</h2>
+					<h2>Devoluciones</h2>
 					<!--<p><span>Created with <i class="sl-icon-heart"></i> by the fine folks at <a href="http://freehtml5.co">FreeHTML5.co</a></span></p>-->
 				</div>
 			</div>

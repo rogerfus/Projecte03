@@ -47,10 +47,14 @@
 						<li><a class="active" href="#">Devoluciones</a></li>
 						<li><a href="incidencias.php">Incidencias</a></li>
 						<?php 
-						if ($_SESSION['usu_name'] == 'admin') {
+						if ($_SESSION['usu_name'] == 'admin') {?>
+							<li><a href="modificarUsuarios.php">Modificar Usuarios</a></li>	
+							<a href="estadisticas.php">Estadisticas</a></li>	
+
+							<?php
 							echo "<li style='color: #2EFE64;''>";
 							?>
-							<a href="estadisticas.php">Estadisticas</a></li>	<?php
+							<?php
 						}
 						?>
 					</ul>
@@ -62,7 +66,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
-					<h2>Disponibilidad de recursos</h2>
+					<h2>Incidencias</h2>
 					<!--<p><span>Created with <i class="sl-icon-heart"></i> by the fine folks at <a href="http://freehtml5.co">FreeHTML5.co</a></span></p>-->
 				</div>
 			</div>

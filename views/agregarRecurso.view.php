@@ -98,9 +98,9 @@
 				</dl>
 				<input type='radio' name='rec_estado' value='0' $rec_est_0/>Inhabilitado</br>
 				<input type='radio' name='rec_estado' value='1' $rec_est_1/>Con incidencias</br>
-				<input type='radio' name='rec_estado' value='2' $rec_est_2/>En buen estado</br></br>
+				<input type='radio' name='rec_estado' checked value='2' $rec_est_2/>En buen estado</br></br>
 				<!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero -->
-    			<input type="hidden" name="MAX_FILE_SIZE" value="300000" />
+    			<input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
 			    <!-- El nombre del elemento de entrada determina el nombre en el array $_FILES -->
 			    <label for="fichero_usuario">Enviar este fichero:</label> <input name="archivo" type="file" />
 			    <br>

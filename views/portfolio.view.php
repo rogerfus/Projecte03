@@ -54,10 +54,11 @@
 						if ($_SESSION['usu_name'] == 'admin') {
 							echo "<li style='color: #2EFE64;''>";
 							?>
+							<li><a href="modificarUsuarios.php">Modificar Usuarios</a></li>	
 							<a href="estadisticas.php">Estadisticas</a></li>	<?php
 							echo "<li style='color: #2EFE64;''>";
 							?>
-							<a href="modificarUsuarios.php">Modificar Usuarios</a></li>	<?php
+							<?php
 						}
 						
 						?>

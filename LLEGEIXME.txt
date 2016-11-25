@@ -1,0 +1,12 @@
+Usuari normal: usu - 123
+administrador: admin - 123
+(t'ho escric perque les contrasenyes estan hasheades i no es poden veure a la BBDD)
+
+desde admin:
+	-alta/baixa/modif usuaris -> "modificar Usuarios" al menú principal
+	-alta/baixa/modif reservas -> "recursos" al menú principal i click a administrar recursos 
+	(al començament del body).
+
+per realitzar una reserva amb qualsevol usuari en l'apartat recursos seleccionar un dia i tramitar.
+*nota hi ha alguns recursos que no tenen comentari, pero els que si tenen (per alguna incidencia), pero
+es poden seguir utilitzan, mostra el missatge just abans de reservar.
