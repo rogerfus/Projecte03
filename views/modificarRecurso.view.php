@@ -54,7 +54,7 @@
 							<a href="estadisticas.php">Estadisticas</a></li>	<?php
 							echo "<li style='color: #2EFE64;''>";
 							?>
-							<a class="active" href="#">Modificar Usuarios</a></li>	<?php
+							<a href="modificarUsuarios.php">Modificar Usuarios</a></li>	<?php
 						}
 						
 						?>
@@ -77,84 +77,20 @@
 
 					
 <?php
-	$conexion = mysqli_connect('localhost', 'root', '', 'bd_cromo');
-		//le decimos a la conexión que los datos los devuelva diréctamente en utf8, así no hay que usar htmlentities
-		$acentos = mysqli_query($conexion, "SET NAMES 'utf8'");
-		if (!$conexion) {
-		    echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
-		    echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
-		    echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
-		    exit;
+
+		$sql1 = "SELECT * FROM tbl_recursos WHERE rec_id = $rec_id";
+		$consultaRecurso = mysqli_query($conexion, $sql1);
+		if(mysqli_num_rows($consultaRecurso)!=0){
+			while($recurso = mysqli_fetch_array($consultaRecurso)){
+				$rec_name = $recurso['rec_name'];
+			}
 		}
-		//llamamos a la función extract para extraer los datos del array $_REQUEST y lo meta todo en las variables del mismo nombre del html
-		extract($_REQUEST);
-
-		$sql = "SELECT * FROM tbl_usuarios WHERE habilitado = '1'";
-		
-
-		//echo $sql;
-	
-		$usuarios = mysqli_query($conexion, $sql);
-		
-		if(mysqli_num_rows($usuarios)!=0){
-			echo "<h3> Número de usuarios: " . mysqli_num_rows($usuarios) . "</h3>";?><h3><a href="afegirUsuari.php">Añadir un usuario</a></h3>
-			<h4 style="color:red"><?php if (isset($_SESSION['errores'])) {echo $_SESSION['errores'];} ?></h4>
-			<?php
-			while($usu = mysqli_fetch_array($usuarios)){
-			$usu_name = $usu['usu_name'];$usu_pass=$usu['usu_pass']; $usu_id=$usu['usu_id']?> 
-				<form method="post" name="Form" id="Form" action="modificacionUsuarios.php">
-		
-			
-			<input type="text" name="usu_name" value="<?php echo $usu_name;?>" />
-			<input type="password" id="pass" name="usu_pass" value="<?php echo $usu_pass;?>" />
-			<input type="hidden" name="usu_id" value="<?php echo $usu_id;?>" />
-			<input type="hidden" name="contra_antigua" value="<?php echo $usu_pass;?>" />
-			<input type="hidden" name="nombre_antiguo" value="<?php echo $usu_name;?>" />
-			<button type="reset">Reset</button>
-			<button type="submit">Submit</button>
-		
-		
-		</form>
-		<form method="post" name="Form" id="Form" action="deshabilitar.php">
-		<input type="hidden" name="usu_id" value="<?php echo $usu_id;?>" />
-			<button type="submit" style="color:red">deshabilitar</button>
-		</form>
-		<br/>
-			<?php }} ?>
-
-			<?php  
-			
-		
-		$sql = "SELECT * FROM tbl_usuarios WHERE habilitado = '0'";
-		
-
-		//echo $sql;
-	
-		$usuarios = mysqli_query($conexion, $sql);
-		if(mysqli_num_rows($usuarios)!=0){
-			echo "<h3> Número de usuarios deshabilitados: " . mysqli_num_rows($usuarios) . "</h3>";?>
-			<h4 style="color:red"><?php if (isset($_SESSION['errores'])) {echo $_SESSION['errores'];} ?></h4>
-			<?php
-			while($usu = mysqli_fetch_array($usuarios)){
-			$usu_name = $usu['usu_name'];$usu_pass=$usu['usu_pass']; $usu_id=$usu['usu_id']?> 
-			<form method="post" name="Form" id="Form" action="habilitar.php">
-		
-			
-			<input type="text" name="usu_name" value="<?php echo $usu_name;?>" disabled />
-			<input type="password" id="pass" name="usu_pass" value="<?php echo $usu_pass;?>" disabled/>
-			<input type="hidden" name="usu_id" value="<?php echo $usu_id;?>"/>
-			<button type="submit" style="color:green">habilitar</button>
-			
-		</form>
-		
-		<?php
-		}
-		} else {
-			echo " <br/> <br/> No hay usuarios!";
-		}
-			//$echo=su_id;
-		//echo $usu_id;
-		mysqli_close($conexion);
+		echo "
+		<strong>Nombre del articulo: </strong>$rec_name<br>
+		<strong>Estado actual : </strong>$est_txt<br>
+		<strong>Mensaje actual : </strong>$rec_mensaje<br>
+		<a href='administrarRecursos.php'>Volver a Administrar recursos</a>
+		";
 	?>		
 					
 			</div>

@@ -76,7 +76,12 @@
 				</div>
 			</div>
 			<div class="row">
-					
+			<?php 
+						if ($_SESSION['usu_name'] == 'admin') {
+							?>
+							<a href="administrarRecursos.php" style='color:green;'>Administrar recursos</a>	<?php
+							}
+							?>
 <?php
 	$conexion = mysqli_connect('localhost', 'root', '', 'bd_cromo');
 		//le decimos a la conexión que los datos los devuelva diréctamente en utf8, así no hay que usar htmlentities
@@ -90,7 +95,7 @@
 		//llamamos a la función extract para extraer los datos del array $_REQUEST y lo meta todo en las variables del mismo nombre del html
 		extract($_REQUEST);
 
-		$sql = "SELECT * FROM tbl_recursos";
+		$sql = "SELECT * FROM tbl_recursos WHERE rec_estado = '1' OR rec_estado = '2'";
 		
 
 		//echo $sql;
@@ -113,7 +118,10 @@
 		<?php
 		$dataHoy = date("Y") ."-". date("m") ."-". date("d");
 			echo "<form action='tramitarReserva.php' method='POST'>";
-			echo '<h4><a href="#"> '.$recurso['rec_name'].'</a></h4>';
+			if ($recurso['rec_estado'] == 1) {
+				$color = '#d6d617';
+			}else{$color = 'green';}
+			echo "<h4><a href='#' style='color:$color'> ".$recurso['rec_name']."</a></h4>";
 			echo '<span> '.$recurso['rec_tipo'].'</span><br/>';
 			$id = $recurso['rec_id'];
 			echo '<input type="hidden" name="idRecurso" value="'.$id.'"/>';

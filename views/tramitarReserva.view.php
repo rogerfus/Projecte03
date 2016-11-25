@@ -90,9 +90,12 @@
 						}
 						?>
 <?php
+	if (isset($_POST['idRecurso'])) {
+		$idRecurso = $_POST['idRecurso'];
+	}
 	$fecha = date("Y-m-d", strtotime($dia));
 	$conexion = mysqli_connect('localhost', 'root', '', 'bd_cromo');
-	$sql = "SELECT *, DATE_FORMAT(res_fechaini,'%H') AS res_fechaini , DATE_FORMAT(res_fechafin,'%H') AS res_fechafin FROM `tbl_reservas` WHERE `dia` = '$fecha' ORDER BY res_fechaini";
+	$sql = "SELECT *, DATE_FORMAT(res_fechaini,'%H') AS res_fechaini , DATE_FORMAT(res_fechafin,'%H') AS res_fechafin FROM `tbl_reservas` WHERE `dia` = '$fecha' AND `rec_id` = '$idRecurso' ORDER BY res_fechaini";
 	$reservas = mysqli_query($conexion, $sql);
 	$done = 7;
 	if(mysqli_num_rows($reservas)!=0){
@@ -101,6 +104,7 @@
 			$fecha = $recurso['res_fechaini'];
 			$fechafin = $recurso['res_fechafin'];
 			$fechaSimple = $recurso['dia'];
+			$usu_id_recurso = $recurso['usu_id'];
 			if ($fecha>8) {
 			echo "<form name='hora' action='reservapr3.php'>";
 			echo "<input type='hidden' name='fechaSimple' value='$fechaSimple'>";
@@ -113,7 +117,17 @@
 			echo "</form>";
 			}
 			$hora = $fechafin;
-			echo "Alguien tiene desde las $fecha hasta las $fechafin </br>";
+			$usu_name=$_SESSION['usu_name'];
+			$sql1 ="SELECT * FROM tbl_usuarios WHERE usu_name = '$usu_name'";
+			$sacarId = mysqli_query($conexion, $sql1);
+			if(mysqli_num_rows($sacarId)!=0){
+				while ($sacarIdUsu = mysqli_fetch_array($sacarId)) {
+					$usu_id = $sacarIdUsu['usu_id'];
+				}
+			}
+			if ($usu_id==$usu_id_recurso) {
+				echo "Tienes reservado este recurso desde las $fecha hasta las $fechafin </br>";
+			}else{echo "Alguien tiene desde las $fecha hasta las $fechafin </br>";}
 		}
 		if ($fechafin<21) {
 			echo "<form name='hora' action='reservapr3.php'>";

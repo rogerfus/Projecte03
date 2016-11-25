@@ -68,7 +68,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
-					<h2>Administración de usuarios</h2> 
+					<h2>Agregar un recurso</h2> 
 					<!--<p><span>Created with <i class="sl-icon-heart"></i> by the fine folks at <a href="http://freehtml5.co">FreeHTML5.co</a></span></p>-->
 				</div>
 			</div>
@@ -76,27 +76,35 @@
 			<div class="row" >
 
 			<?php if (isset($_SESSION['goodNews'])) {echo "<h4 style='color:green'>". $_SESSION['goodNews']."</h4>"; $_SESSION['goodNews']="";}?>
-			<form method="post" name="afegirUsuari" id="afegirUsuari" action="accioAfegirUsuari.php">
+			<form method="post" name="afegirRecurs" id="afegirRecurs" action="procAgregarRecurso.php" enctype="multipart/form-data">
 				<dl>
 					<dt>
 						<label for="nombre">Nombre</label>
 					</dt>
-					<dd><input type="text" id="nombre" name="usu_name" /></dd>
+					<dd><input type="text" id="nombre" name="rec_name" /></dd>
 				</dl>
 				<dl>
 					<dt>
-						<label for="password">contraseña</label>
+						<label for="tipo">Tipo del recurso</label>
 					</dt>
-					<dd><input type="password" id="password" name="usu_pass" /></dd>
+					<select name="rec_tipo">
+						<option value="Aula">Aula</option>
+						<option value="Despacho">Despacho</option>
+						<option value="SalaReuniones">Sala de Reuniones</option>
+						<option value="Portatil">Portatil</option>
+						<option value="Proyector">Proyector</option>
+						<option value="Movil">Movil</option>
+					</select>
 				</dl>
-				<dl>
-					<dt>
-						<label for="password">repite la contraseña</label>
-					</dt>
-					<dd><input type="password" id="password" name="usu_pass2" /></dd>
-				</dl>
-				<div id="submit_buttons">
-					<button type="submit">Afegir</button>
+				<input type='radio' name='rec_estado' value='0' $rec_est_0/>Inhabilitado</br>
+				<input type='radio' name='rec_estado' value='1' $rec_est_1/>Con incidencias</br>
+				<input type='radio' name='rec_estado' value='2' $rec_est_2/>En buen estado</br></br>
+				<!-- MAX_FILE_SIZE debe preceder al campo de entrada del fichero -->
+    			<input type="hidden" name="MAX_FILE_SIZE" value="300000" />
+			    <!-- El nombre del elemento de entrada determina el nombre en el array $_FILES -->
+			    <label for="fichero_usuario">Enviar este fichero:</label> <input name="archivo" type="file" />
+			    <br>
+				<button type="submit">Afegir</button>
 			</form>
 			<?php if (isset($_SESSION['errores'])) {echo "<h4 style='color:red'>". $_SESSION['errores']."</h4>"; $_SESSION['errores']="";} if (isset($_SESSION['errorPass'])) {echo "<h4 style='color:red'>". $_SESSION['errorPass']."</h4>"; $_SESSION['errorPass']="";} ?>
 		</div>
